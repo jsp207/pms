@@ -1,0 +1,8 @@
+{
+  "name": "PMS Node.API documentation",
+  "version": "1.0.0",
+  "description": "PMS 기능을 강화하는 써드파티 API 입니다.",
+  "template": {
+    "forceLanguage": "en"
+  }
+}

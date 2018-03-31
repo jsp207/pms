@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/api.css' />
+    <script src="/javascripts/jquery-1.11.3.min.js"></script>
+
+
+    <script>
+        $(document).ready(function() {
+
+            Highcharts.chart('container', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: '투어 프로젝트 전체 현황'
+                },
+                subtitle: {
+                    text: ''
+                },
+                xAxis: {
+                    categories: [
+                        <% for(var i in viewData) { %>
+                        '<%= viewData[i].name %>',
+                        <% } %>
+                    ],
+                    crosshair: true
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: ''
+                    }
+                },
+                tooltip: {
+                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y} </b></td></tr>',
+                    footerFormat: '</table>',
+                    shared: true,
+                    useHTML: true
+                },
+                plotOptions: {
+                    column: {
+                        pointPadding: 0.2,
+                        borderWidth: 0
+                    }
+                },
+                series: [
+                    {
+                        name:'진행',
+                        data:[
+                            <% for(var i in viewData) { %>
+                                <%= viewData[i].InprogressCount %>,
+                            <% } %>
+                        ]
+                    }, {
+                        name:'완료',
+                        data:[
+                            <% for(var i in viewData) { %>
+                            <%= viewData[i].CompletedCount %>,
+                            <% } %>
+                        ]
+                    },{
+                        name:'전체',
+                        data:[
+                            <% for(var i in viewData) { %>
+                            <%= viewData[i].TotalCount %>,
+                            <% } %>
+                        ]
+                    }
+                 ]
+            });
+
+            Highcharts.chart('container2', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: '투어 전체 프로젝트 진행 현황'
+                },
+                subtitle: {
+                    text: ''
+                },
+                xAxis: {
+                    categories: [
+                        <% for(var i in viewData2) { %>
+                        '<%= viewData2[i].name %>',
+                        <% } %>
+                    ],
+                    crosshair: true
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: ''
+                    }
+                },
+                tooltip: {
+                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y} </b></td></tr>',
+                    footerFormat: '</table>',
+                    shared: true,
+                    useHTML: true
+                },
+                plotOptions: {
+                    column: {
+                        pointPadding: 0.2,
+                        borderWidth: 0
+                    }
+                },
+                series: [
+                    {
+                        name:'신규',
+                        data:[
+                            <% for(var i in viewData2) { %>
+                            <%= viewData2[i].count %>,
+                            <% } %>
+                        ]
+                    }
+                ]
+            });
+
+        });
+    </script>
+</head>
+<body>
+<script src="/Highcharts-5.0.9/api/js/highcharts.js"></script>
+<script src="/Highcharts-5.0.9/api/js/exporting.js"></script>
+
+<div class="central_charts">
+    <div id="container" style="min-width: 310px; height: 700px; margin: 0 auto"></div>
+</div>
+
+<div class="central_charts">
+    <div id="container2" style="min-width: 310px; height: 700px; margin: 0 auto"></div>
+</div>
+
+
+</body>
+</html>

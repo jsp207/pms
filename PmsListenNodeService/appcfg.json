@@ -1,0 +1,16 @@
+{
+    "PMSUrl" : "http://180.70.98.35",
+    "PMSUrlFix" : "http://180.70.98.35",
+    "PMSAPIToken" : "ad5930855ff14445be9e6cdcb376e576cc07a774",
+    "GitUrl" : "http://192.168.28.173",
+    "GitUrlFix" : "http://192.168.28.173",
+    "ServicePort" : 8080,
+    "DB" :{
+        "HOST" : "127.0.0.1",
+        "PORT" : 3306,
+        "USER" : "openproject",
+        "PW" : "IN1kk6UlCRt1A9TwWshaSshEnkB70f7k",
+        "DB" : "openproject"
+    }
+
+}

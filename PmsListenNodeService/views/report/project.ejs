@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/api.css' />
+    <script src="/javascripts/jquery-1.11.3.min.js"></script>
+
+    <script type="text/javascript">
+
+        $(document).ready(function() {
+
+            Highcharts.chart('containerIssueByC', {
+                chart: {
+                    type: 'bar'
+                },
+                title: {
+                    text: '카테고리별 현황'
+                },
+                subtitle: {
+                    text: ''
+                },
+                xAxis: {
+                    categories: [
+                        <% for(var i in viewData) { %>
+                        '<%= viewData[i].name %>',
+                        <% } %>
+                    ],
+                    title: {
+                        text: null
+                    }
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: '',
+                        align: 'high'
+                    },
+                    labels: {
+                        overflow: 'justify'
+                    }
+                },
+                tooltip: {
+                    valueSuffix: ' '
+                },
+                plotOptions: {
+                    bar: {
+                        dataLabels: {
+                            enabled: true
+                        }
+                    }
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'top',
+                    x: -40,
+                    y: 80,
+                    floating: true,
+                    borderWidth: 1,
+                    backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
+                    shadow: true
+                },
+                credits: {
+                    enabled: false
+                },
+                series: [
+
+                    <% colInfo.forEach(function(issusName){ %>
+                    {
+                        name : '<%- issusName %>',
+                        data : [
+                            <% for(var idx1 in viewData) { %>
+                            <%= viewData[idx1].issueCountInfo[issusName] %>,
+                            <% } %>
+                        ]
+                    },
+                    <% }); %>
+                ]
+            });
+
+            Highcharts.chart('containerColumnBar', {
+                chart: {
+                    type: 'bar'
+                },
+                title: {
+                    text: '담당자별 할당 현황'
+                },
+                subtitle: {
+                    text: ''
+                },
+                xAxis: {
+                    categories: [
+                        <% groupA.forEach(function(t){ %>
+                        '<%- t.assigned_first_name %>',
+                        <% }); %>
+                    ],
+                    title: {
+                        text: ''
+                    }
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: '',
+                        align: 'high'
+                    },
+                    labels: {
+                        overflow: 'justify'
+                    }
+                },
+                tooltip: {
+                    valueSuffix: ' '
+                },
+                plotOptions: {
+                    bar: {
+                        dataLabels: {
+                            enabled: true
+                        }
+                    }
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'top',
+                    x: -40,
+                    y: 80,
+                    floating: true,
+                    borderWidth: 1,
+                    backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
+                    shadow: true
+                },
+                credits: {
+                    enabled: false
+                },
+                series: [{
+                    name:'할당수',
+                    data: [
+                        <% groupA.forEach(function(t){ %>
+                        {y:<%- t.totalassignedbystatuses %>,user_id : <%- t.id %> },
+                        <% }); %>
+                    ],
+                    dataLabels: {
+                        enabled: true,
+                        color: '#FFFFFF',
+                        align: 'right',
+                        x: -3,
+                        y: 10,
+                        formatter: function() {
+                            return this.y;
+                        },
+                        style: {
+                            font: 'normal 13px Verdana, sans-serif'
+                        }
+                    }
+                }]
+            });
+
+            Highcharts.chart('containerStackedBar', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: '담당자별 진행 현황'
+                },
+                subtitle: {
+                    text: ''
+                },
+                xAxis: {
+                    categories: [
+                        <% for(var i in viewData2) { %>
+                        '<%= viewData2[i].name %>',
+                        <% } %>
+                    ],
+                    crosshair: true
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: ''
+                    }
+                },
+                tooltip: {
+                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y} </b></td></tr>',
+                    footerFormat: '</table>',
+                    shared: true,
+                    useHTML: true
+                },
+                plotOptions: {
+                    column: {
+                        pointPadding: 0.2,
+                        borderWidth: 0
+                    }
+                },
+                series: [
+                    <% colInfo2.forEach(function(issusName){ %>
+                    {
+                        name : '<%- issusName %>',
+                        data : [
+                            <% for(var idx1 in viewData2) { %>
+                            <%= viewData2[idx1].issueCountInfo[issusName] %>,
+                            <% } %>
+                        ]
+                    },
+                    <% }); %>
+                ]
+            });
+
+            new Highcharts.Chart({
+                credits: {
+                    enabled: false
+                },
+                chart: {
+                    renderTo: 'containerPie',
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false
+                },
+                title: {
+                    text: '유형,상태별 진행률'
+                },
+                tooltip: {
+                    formatter: function() {
+                        return '<b>'+ this.point.name +'</b>: '+ Highcharts.numberFormat(this.y,0) +' Task';
+                    }
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            color: '#000000',
+                            connectorColor: '#000000',
+                            formatter: function() {
+                                return '<b>'+ this.point.name +'</b>: '+ Highcharts.numberFormat(this.percentage,2) +' %';
+                            }
+                        }
+                    }
+                },
+                series: [{
+                    type: 'pie',
+                    data: [
+                        <% issueReport.forEach(function(pValue){ %>
+                        { name:'<%- pValue.name %>',y:<%- pValue.totalassignedbystatuses %> },
+                        <% }); %>
+                    ]
+                }]
+            });
+
+            new Highcharts.Chart({
+                credits: {
+                    enabled: false
+                },
+                chart: {
+                    renderTo: 'containerPie2',
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false
+                },
+                title: {
+                    text: '카테고리별 진행률'
+                },
+                tooltip: {
+                    formatter: function() {
+                        return '<b>'+ this.point.name +'</b>: '+ Highcharts.numberFormat(this.y,0) +' Task';
+                    }
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            color: '#000000',
+                            connectorColor: '#000000',
+                            formatter: function() {
+                                return '<b>'+ this.point.name +'</b>: '+ Highcharts.numberFormat(this.percentage,2) +' %';
+                            }
+                        }
+                    }
+                },
+                series: [{
+                    type: 'pie',
+                    data: [
+
+                        <% issueReport2.forEach(function(pValue){ %>
+                        { name:'<%- pValue.name %>',y:<%- pValue.totalIssueCount %> },
+                        <% }); %>
+
+                    ]
+                }]
+            });
+
+        });
+    </script>
+
+</head>
+<body>
+
+<script src="/Highcharts-5.0.9/api/js/highcharts.js"></script>
+<script src="/Highcharts-5.0.9/api/js/exporting.js"></script>
+
+<div class="central_charts">
+    <div id="containerIssueByC" ></div>
+    <div id="containerColumnBar" class="central_chart"></div>
+    <div id="containerStackedBar" class="central_chart"></div>
+    <div>
+        <div id="containerPie" style="float: left"></div>
+        <div id="containerPie2" style="overflow: hidden" ></div>
+    </div>
+</div>
+
+</body>
+</html>

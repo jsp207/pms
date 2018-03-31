@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/bootstrap-3.3.7-dist/css/bootstrap.css' />
+    <script src="/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p>
+
+    <p>API List</p>
+    <ul>
+      <li>/api/GitLab/MergeEvent</li>
+      <li>/api/GitLab/PushEvent</li>
+    </ul>
+
+    <p>Report List</p>
+    <ul>
+      <li><a href="/report" target="_blank">report</a></li>
+      <li>report/humanresource/{ProjectID}</li>
+    </ul>
+  </body>
+</html>

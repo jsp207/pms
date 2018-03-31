@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Open Project Report</title>
+
+    <link rel='stylesheet' href='/stylesheets/api.css' />
+    <link type="text/css" rel="stylesheet" href="/stylesheets/layout-default-latest.css" />
+
+    <STYLE type="text/css">
+
+        /* remove padding from the IFRAME-pane */
+        .ui-layout-pane-center {
+            padding: 	0;
+        }
+        /* masks are normally transparent - make them visible (must 'override' default) */
+        .ui-layout-mask {
+            background:	#C00;
+            opacity:	.20;
+            filter:		alpha(opacity=20); /* IE */
+        }
+
+        /**
+         *	This CSS below is only for cosmetic and demo purposes
+         *	Nothing here affects the appearance of the layout
+         */
+
+        body {
+            background: #ffffff;
+            font-family:	Arial, sans-serif;
+            *font-size:		0.85em;
+        }
+        p {
+            margin:			1em 0;
+        }
+
+        .area
+        {
+            height: 100px;
+            padding: 10px;
+            margin-bottom: 20px;
+            background-color: #ADD8E6;
+            position: relative;
+
+        }
+
+    </STYLE>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <!-- link rel='stylesheet' href='/bootstrap-3.3.7-dist/css/bootstrap.css' / -->
+    <script src="/javascripts/jquery-1.11.3.min.js"></script>
+    <script src="/javascripts/jquery-ui-latest.js"></script>
+    <script src="/javascripts/jquery.layout-latest.js"></script>
+
+    <!-- Basic Styles -->
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/font-awesome.min.css">
+
+    <!-- SmartAdmin Styles : Caution! DO NOT change the order -->
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/smartadmin-production-plugins.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/smartadmin-production.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/smartadmin-skins.min.css">
+
+    <!-- SmartAdmin RTL Support  -->
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/smartadmin-rtl.min.css">
+
+    <!-- We recommend you use "your_style.css" to override SmartAdmin
+         specific styles this will also ensure you retrain your customization with each SmartAdmin update.
+    <link rel="stylesheet" type="text/css" media="screen" href="css/your_style.css"> -->
+
+    <!-- Demo purpose only: goes with demo.js, you can delete this css when designing your own WebApp -->
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/demo.min.css">
+
+    <!-- FAVICONS -->
+    <link rel="shortcut icon" href="/img/favicon/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/img/favicon/favicon.ico" type="image/x-icon">
+
+    <!-- GOOGLE FONT -->
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,700">
+
+    <!-- link rel='stylesheet' href='/EasyTree/skin-lion/ui.easytree.css' / -->
+    <!-- script src="/EasyTree/jquery.easytree.js"></script -->
+
+
+</head>
+<body>
+
+<IFRAME id="childIframe" name="childIframe" class="ui-layout-center" scrolling="auto"
+        src=""></IFRAME>
+
+<DIV class="ui-layout-west" style="background-color:rgb(26,24,23) ">
+    <div id="menu" style="height: 900px">
+        <nav>
+        <ul>
+            <% rootmenu.forEach(function(t) { %>
+
+            <% if( filterroot == 0) {%>
+            <li>
+                <a href="/report/allproject/<%- t.info.id %>" target="childIframe"> <%- t.info.name %> </a>
+                <ul>
+                    <% t.subMenuList.forEach(function(prjList) { %>
+                    <li id="area-<%- prjList.info.id %>" >
+                        <a href="/report/subproject/<%- prjList.info.id %>" target="childIframe"> <%- prjList.info.name %> </a>
+                        <ul>
+                            <% prjList.subMenuList.forEach(function(prjInfo) { %>
+                            <li>
+                                <a href="/report/project/<%- prjInfo.info.id %>" target="childIframe"> <%- prjInfo.info.name %> </a>
+                            </li>
+                            <% }); %>
+                        </ul>
+                    </li>
+                    <% }); %>
+                </ul>
+            </li>
+            <% } %>
+
+
+
+            <% if( filterroot > 0) {%>
+                <% if( t.info.id == filterroot) {%>
+                        <li><a href="/report/allproject/<%- t.info.id %>" target="childIframe">
+                                <i class="fa fa-lg fa-fw fa-home"></i>
+                                <span class="menu-item-parent"><%- t.info.name %></span>
+                            </a>
+                        </li>
+                        <% t.subMenuList.forEach(function(prjList) { %>
+                        <li id="area-<%- prjList.info.id %>" >
+
+                            <% if(filterroot==24){ %>
+                                <a href="/report/subproject/<%- prjList.info.id %>" target="childIframe">
+                                    <i class="fa fa-lg fa-fw fa-cube txt-color-blue"></i>
+                                    <span ><%- prjList.info.name %></span>
+                                </a>
+                            <% } else{ %>
+                                <a href="#" target="childIframe">
+                                    <i class="fa fa-lg fa-fw fa-cube txt-color-blue"></i>
+                                    <span class="menu-item-parent"><%- prjList.info.name %></span>
+                                </a>
+                            <% } %>
+
+                            <% if(filterroot!=24){ %>
+                                <ul>
+                                    <li><a href="/report/subproject/<%- prjList.info.id %>" target="childIframe">
+                                            <span class="menu-item-parent"><%- prjList.info.name %></span>
+                                        </a>
+                                    </li>class="menu-item-parent"><%- prjList.info.name %></span>
+
+                                    <% prjList.subMenuList.forEach(function(prjInfo) { %>
+                                    <li>
+                                        <a href="/report/project/<%- prjInfo.info.id %>" target="childIframe"> <%- prjInfo.info.name %> </a>
+                                    </li>
+                                    <% }); %>
+                                </ul>
+                            <% } %>
+
+                        </li>
+                        <% }); %>
+                <% } %>
+            <% } %>
+
+            <%  }); %>
+        </ul>
+        </nav>
+    </div>
+</DIV>
+
+
+<!-- DIV class="ui-layout-north">
+    <div id="header_banner">
+        <center><h1>Open Project <small>Report Chart</small></h1> </center>
+    </div>
+</DIV -->
+
+
+
+<script>
+    var topLayout;
+    $(document).ready(function () {
+        topLayout = $('body').layout({
+            center__maskContents:	true // IMPORTANT - enable iframe masking
+            ,	west__size:				300
+        });
+
+        pageSetUp();
+    });
+
+    //$('#menu').easytree();
+</script>
+
+<!-- IMPORTANT: APP CONFIG -->
+<script src="/js/app.config.js"></script>
+
+<!-- JS TOUCH : include this plugin for mobile drag / drop touch events-->
+<script src="/js/plugin/jquery-touch/jquery.ui.touch-punch.min.js"></script>
+
+<!-- BOOTSTRAP JS -->
+<script src="/js/bootstrap/bootstrap.min.js"></script>
+
+<!-- CUSTOM NOTIFICATION -->
+<script src="/js/notification/SmartNotification.min.js"></script>
+
+<!-- JARVIS WIDGETS -->
+<script src="/js/smartwidgets/jarvis.widget.min.js"></script>
+
+<!-- EASY PIE CHARTS -->
+<script src="/js/plugin/easy-pie-chart/jquery.easy-pie-chart.min.js"></script>
+
+<!-- SPARKLINES -->
+<script src="/js/plugin/sparkline/jquery.sparkline.min.js"></script>
+
+<!-- JQUERY VALIDATE -->
+<script src="/js/plugin/jquery-validate/jquery.validate.min.js"></script>
+
+<!-- JQUERY MASKED INPUT -->
+<script src="/js/plugin/masked-input/jquery.maskedinput.min.js"></script>
+
+<!-- JQUERY SELECT2 INPUT -->
+<script src="/js/plugin/select2/select2.min.js"></script>
+
+<!-- JQUERY UI + Bootstrap Slider -->
+<script src="/js/plugin/bootstrap-slider/bootstrap-slider.min.js"></script>
+
+<!-- browser msie issue fix -->
+<script src="/js/plugin/msie-fix/jquery.mb.browser.min.js"></script>
+
+<!-- FastClick: For mobile devices -->
+<script src="/js/plugin/fastclick/fastclick.min.js"></script>
+
+<!--[if IE 8]>
+
+<h1>Your browser is out of date, please update your browser by going to www.microsoft.com/download</h1>
+
+<![endif]-->
+
+<!-- Demo purpose only -->
+<script src="/js/demo.min.js"></script>
+
+<!-- MAIN APP JS FILE -->
+<script src="/js/app.min.js"></script>
+
+<!-- ENHANCEMENT PLUGINS : NOT A REQUIREMENT -->
+<!-- Voice command : plugin -->
+<script src="/js/speech/voicecommand.min.js"></script>
+
+<!-- SmartChat UI : plugin -->
+<script src="/js/smart-chat-ui/smart.chat.ui.min.js"></script>
+<script src="/js/smart-chat-ui/smart.chat.manager.min.js"></script>
+
+<!-- PAGE RELATED PLUGIN(S) -->
+
+<!-- Flot Chart Plugin: Flot Engine, Flot Resizer, Flot Tooltip -->
+<script src="/js/plugin/flot/jquery.flot.cust.min.js"></script>
+<script src="/js/plugin/flot/jquery.flot.resize.min.js"></script>
+<script src="/js/plugin/flot/jquery.flot.time.min.js"></script>
+<script src="/js/plugin/flot/jquery.flot.tooltip.min.js"></script>
+
+<!-- Vector Maps Plugin: Vectormap engine, Vectormap language -->
+<script src="/js/plugin/vectormap/jquery-jvectormap-1.2.2.min.js"></script>
+<script src="/js/plugin/vectormap/jquery-jvectormap-world-mill-en.js"></script>
+
+<!-- Full Calendar -->
+<script src="/js/plugin/moment/moment.min.js"></script>
+<script src="/js/plugin/fullcalendar/jquery.fullcalendar.min.js"></script>
+
+
+</body>
+</html>
