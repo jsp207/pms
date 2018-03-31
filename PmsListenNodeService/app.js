@@ -9,21 +9,10 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 var gitController = require('./routes/gitController');
 
-var reportController = require('./routes/reportController');
-
-var reportAPI = require('./routes/reportAPI');
-
 var urlManager = require('./utils/urlManager');
 urlManager.loadConfig();
 
-var oepnProjectDB = require('./service/openProjectDB');
-oepnProjectDB.Init();
-
 console.log( urlManager.getUrlInfo("PMSSITE") );
-
-var openProjectChart = require("./service/openProjectChart");
-openProjectChart.Init();
-
 
 var app = express();
 
@@ -40,12 +29,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
-app.use('/users', users);
 app.use('/api/GitLab', gitController);
-
-app.use('/report', reportController);
-
-app.use('/api/report', reportAPI);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
