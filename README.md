@@ -1,9 +1,9 @@
 # PMS LISTEN(Bridge) SERVICE API
 
 
-apidocument :  http://pms.interparktour.com:8080/apidoc/
+apidocument :  http://pms.url.com:8080/apidoc/
 
-pmsreport : http://pms.interparktour.com:8080/report
+pmsreport : http://pms.url.com:8080/report
 
 
 ## 소개
@@ -27,7 +27,6 @@ pmsreport : http://pms.interparktour.com:8080/report
 
 	* /api/GitLab/PushEvent : GitLab에서 발생하는 PushEvent를 처리합니다.
 	* /api/GitLab/MergeEvent : GitLab에서 발생하는 MergeEvent를 처리합니다.
-	* /api/report : PMS의 각종 리포팅을 데이터로 제공
 
 
 ## 설치: CENT OS 기준
@@ -63,19 +62,12 @@ pmsreport : http://pms.interparktour.com:8080/report
 
 	// appcfg.json 을 수정, 서비스 재시작 적용 
 	{
-        "PMSUrl" : "http://180.70.96.191",
-        "PMSUrlFix" : "http://git.interparktour.com",
+        "PMSUrl" : "http://XXX.XXX.XXX.XXX",
+        "PMSUrlFix" : "http://gitlabdomain.com",
         "PMSAPIToken" : "XXXXXXXXXXXXXXXXXXXXXXXXXXXXX",	//PMS에서 생성한 API Token입력
-        "GitUrl" : "http://180.70.96.227",
-        "GitUrlFix" : "http://pms.interparktour.com",
+        "GitUrl" : "http://XXX.XXX.XXX.XXX",
+        "GitUrlFix" : "http://pmsdomain.com",
         "ServicePort" : 3000,
-        "DB" :{
-            "HOST" : "127.0.0.1",
-            "PORT" : 3306,
-            "USER" : "root",
-            "PW" : "XXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-            "DB" : "openproject"
-        }
 	}
 	//XXXUrl :서버간 접속되는 Url
 	//XXXUrlFix:사용자에게 노출되는 Url
